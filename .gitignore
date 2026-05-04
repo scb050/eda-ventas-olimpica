@@ -1,0 +1,19 @@
+# Datos sensibles
+data/raw/
+data/interim/
+data/processed/
+*.csv
+*.xlsx
+*.xls
+*.parquet
+*.pkl
+
+# Entornos y caché
+__pycache__/
+.ipynb_checkpoints/
+_build/
+.env
+
+# Sistema
+.DS_Store
+Thumbs.db
