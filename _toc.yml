@@ -1,0 +1,14 @@
+format: jb-book
+root: index
+
+chapters:
+  - file: notebooks/00_configuracion
+  - file: notebooks/01_carga_y_revision_inicial
+  - file: notebooks/02_limpieza_y_calidad_datos
+  - file: notebooks/03_analisis_temporal
+  - file: notebooks/04_analisis_pdv
+  - file: notebooks/05_analisis_categorias_productos
+  - file: notebooks/06_analisis_promociones_descuentos
+  - file: notebooks/07_analisis_tickets_facturas
+  - file: notebooks/08_outliers_y_casos_especiales
+  - file: notebooks/09_conclusiones_eda

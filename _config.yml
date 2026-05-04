@@ -1,0 +1,15 @@
+title: "EDA de Ventas Olímpica"
+author: "Sergio Cadavid - Juan Andres Ramos"
+copyright: "2026"
+
+execute:
+  execute_notebooks: "off"
+
+html:
+  use_repository_button: true
+  use_issues_button: false
+  use_edit_page_button: false
+
+repository:
+  url: https://github.com/TU_USUARIO/NOMBRE_DEL_REPOSITORIO
+  branch: main
