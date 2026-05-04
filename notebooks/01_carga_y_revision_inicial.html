@@ -1,0 +1,3104 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>01 - Carga y revisión inicial de la base de ventas &#8212; EDA de Ventas Olímpica</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/01_carga_y_revision_inicial';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="02 - Limpieza y calidad de datos" href="02_limpieza_y_calidad_datos.html" />
+    <link rel="prev" title="00 - Configuración inicial del proyecto" href="00_configuracion.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">EDA de Ventas Olímpica</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    EDA de ventas Olímpica
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_configuracion.html">00 - Configuración inicial del proyecto</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">01 - Carga y revisión inicial de la base de ventas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_limpieza_y_calidad_datos.html">02 - Limpieza y calidad de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_analisis_temporal.html">03 - Análisis temporal de ventas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_analisis_pdv.html">04 - Análisis por PDV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_analisis_categorias_productos.html">05 - Análisis de categorías y productos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_analisis_promociones_descuentos.html">06 - Análisis de promociones y descuentos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_analisis_tickets_facturas.html">07 - Análisis de tickets y facturas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_outliers_y_casos_especiales.html">08 - Outliers y casos especiales</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_conclusiones_eda.html">09 - Conclusiones generales del EDA</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/TU_USUARIO/NOMBRE_DEL_REPOSITORIO" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/01_carga_y_revision_inicial.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>01 - Carga y revisión inicial de la base de ventas</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vista-inicial-de-la-base-de-datos">Vista inicial de la base de datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revision-de-las-ultimas-filas-de-la-base">Revisión de las últimas filas de la base</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revision-de-una-muestra-aleatoria-de-registros">Revisión de una muestra aleatoria de registros</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-inicial-de-columnas-tipos-de-datos-y-valores-nulos">Resumen inicial de columnas, tipos de datos y valores nulos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#informacion-general-del-dataframe">Información general del DataFrame</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dimensiones-generales-de-la-base">Dimensiones generales de la base</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diccionario-inicial-de-variables">Diccionario inicial de variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revision-de-valores-nulos">Revisión de valores nulos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#columnas-con-valores-faltantes">Columnas con valores faltantes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revision-de-duplicados-completos">Revisión de duplicados completos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revision-de-duplicados-en-nroreg">Revisión de duplicados en <code class="docutils literal notranslate"><span class="pre">NroReg</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cardinalidad-de-variables-principales">Cardinalidad de variables principales</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribucion-de-variables-categoricas-principales">Distribución de variables categóricas principales</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conversion-preliminar-de-la-fecha">Conversión preliminar de la fecha</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validacion-de-cobertura-temporal">Validación de cobertura temporal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-preliminar-por-ano">Resumen preliminar por año</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estadisticos-descriptivos-preliminares">Estadísticos descriptivos preliminares</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revision-preliminar-de-casos-especiales">Revisión preliminar de casos especiales</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metricas-generales-preliminares">Métricas generales preliminares</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-preliminar-del-identificador-de-ticket">Construcción preliminar del identificador de ticket</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-preliminar-por-punto-de-venta">Resumen preliminar por punto de venta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-preliminar-por-categoria">Resumen preliminar por categoría</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#top-productos-por-venta-neta">Top productos por venta neta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#serie-diaria-preliminar-de-venta-neta">Serie diaria preliminar de venta neta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusiones-de-la-revision-inicial">Conclusiones de la revisión inicial</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="carga-y-revision-inicial-de-la-base-de-ventas">
+<h1>01 - Carga y revisión inicial de la base de ventas<a class="headerlink" href="#carga-y-revision-inicial-de-la-base-de-ventas" title="Permalink to this heading">#</a></h1>
+<p>Este notebook tiene como objetivo realizar una primera revisión estructural de la base <code class="docutils literal notranslate"><span class="pre">Ventas_1.csv</span></code>, enviada para el análisis exploratorio de datos del proyecto de ventas de Olímpica.</p>
+<p>En esta sección se revisan los siguientes aspectos:</p>
+<ul class="simple">
+<li><p>Carga del archivo original.</p></li>
+<li><p>Dimensiones generales de la base.</p></li>
+<li><p>Tipos de variables.</p></li>
+<li><p>Primeras observaciones de las columnas.</p></li>
+<li><p>Valores nulos.</p></li>
+<li><p>Registros duplicados.</p></li>
+<li><p>Cardinalidad de variables principales.</p></li>
+<li><p>Rango de fechas disponible.</p></li>
+<li><p>Cantidad de PDV, productos, categorías y facturas.</p></li>
+<li><p>Primeras métricas generales de venta, cantidad y descuento.</p></li>
+</ul>
+<p>Este notebook no realiza la limpieza definitiva de la base. Su propósito es entender la estructura inicial del archivo y detectar posibles problemas que serán tratados en el siguiente notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Imports principales</span>
+<span class="c1"># ===============================</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.max_columns&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.max_rows&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.float_format&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{:,.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="s2">&quot;notebook&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Librerías cargadas correctamente.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Librerías cargadas correctamente.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Rutas del proyecto</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">PROJECT_ROOT</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
+
+<span class="n">DATA_DIR</span> <span class="o">=</span> <span class="n">PROJECT_ROOT</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span>
+<span class="n">RAW_DIR</span> <span class="o">=</span> <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">&quot;raw&quot;</span>
+<span class="n">INTERIM_DIR</span> <span class="o">=</span> <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">&quot;interim&quot;</span>
+<span class="n">PROCESSED_DIR</span> <span class="o">=</span> <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">&quot;processed&quot;</span>
+
+<span class="n">REPORTS_DIR</span> <span class="o">=</span> <span class="n">PROJECT_ROOT</span> <span class="o">/</span> <span class="s2">&quot;reports&quot;</span>
+<span class="n">FIGURES_DIR</span> <span class="o">=</span> <span class="n">REPORTS_DIR</span> <span class="o">/</span> <span class="s2">&quot;figures&quot;</span>
+<span class="n">TABLES_DIR</span> <span class="o">=</span> <span class="n">REPORTS_DIR</span> <span class="o">/</span> <span class="s2">&quot;tables&quot;</span>
+
+<span class="n">RAW_FILE</span> <span class="o">=</span> <span class="n">RAW_DIR</span> <span class="o">/</span> <span class="s2">&quot;Ventas_1.csv&quot;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Raíz del proyecto:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">PROJECT_ROOT</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Archivo original:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">RAW_FILE</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">¿Existe el archivo?&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">RAW_FILE</span><span class="o">.</span><span class="n">exists</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Raíz del proyecto:
+c:\Users\sergi\OneDrive\Desktop\Proyecto Olimpica
+
+Archivo original:
+c:\Users\sergi\OneDrive\Desktop\Proyecto Olimpica\data\raw\Ventas_1.csv
+
+¿Existe el archivo?
+True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Carga de la base original</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">RAW_FILE</span><span class="p">,</span>
+    <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;CATEG&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="s2">&quot;PLU_SAP&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="s2">&quot;FACTURA&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="s2">&quot;PDV&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="s2">&quot;OFERTA_ID&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="s2">&quot;GRUCOM&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="s2">&quot;Estrato&quot;</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">},</span>
+    <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Base cargada correctamente.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filas: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Columnas: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Base cargada correctamente.
+Filas: 409,760
+Columnas: 12
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Primeras filas</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>NroReg</th>
+      <th>FECHA</th>
+      <th>PDV</th>
+      <th>Estrato</th>
+      <th>OFERTA_ID</th>
+      <th>FACTURA</th>
+      <th>CATEG</th>
+      <th>PLU_SAP</th>
+      <th>CANT</th>
+      <th>VENTA</th>
+      <th>DESCUENTO</th>
+      <th>GRUCOM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4</td>
+      <td>44927</td>
+      <td>980</td>
+      <td>4</td>
+      <td>0</td>
+      <td>1</td>
+      <td>04010</td>
+      <td>1280454</td>
+      <td>3</td>
+      <td>298</td>
+      <td>0,00</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>12</td>
+      <td>44927</td>
+      <td>1255</td>
+      <td>4</td>
+      <td>0</td>
+      <td>2</td>
+      <td>04010</td>
+      <td>1328730</td>
+      <td>1</td>
+      <td>115</td>
+      <td>0,00</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>24</td>
+      <td>44927</td>
+      <td>1255</td>
+      <td>4</td>
+      <td>0</td>
+      <td>3</td>
+      <td>04010</td>
+      <td>1036266</td>
+      <td>3</td>
+      <td>448</td>
+      <td>0,00</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>36</td>
+      <td>44927</td>
+      <td>1311</td>
+      <td>6</td>
+      <td>0</td>
+      <td>4</td>
+      <td>08061</td>
+      <td>1265857</td>
+      <td>1</td>
+      <td>82</td>
+      <td>0,00</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>37</td>
+      <td>44927</td>
+      <td>980</td>
+      <td>4</td>
+      <td>0</td>
+      <td>5</td>
+      <td>04010</td>
+      <td>1328946</td>
+      <td>4</td>
+      <td>519</td>
+      <td>0,00</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="vista-inicial-de-la-base-de-datos">
+<h2>Vista inicial de la base de datos<a class="headerlink" href="#vista-inicial-de-la-base-de-datos" title="Permalink to this heading">#</a></h2>
+<p>La vista inicial permite observar las primeras filas del archivo original de ventas. Cada registro corresponde a una línea de venta, es decir, a un producto específico vendido dentro de una factura.</p>
+<p>Se identifican variables asociadas a la transacción, como <code class="docutils literal notranslate"><span class="pre">FECHA</span></code>, <code class="docutils literal notranslate"><span class="pre">PDV</span></code>, <code class="docutils literal notranslate"><span class="pre">FACTURA</span></code>, <code class="docutils literal notranslate"><span class="pre">CANT</span></code>, <code class="docutils literal notranslate"><span class="pre">VENTA</span></code> y <code class="docutils literal notranslate"><span class="pre">DESCUENTO</span></code>, además de variables comerciales como <code class="docutils literal notranslate"><span class="pre">CATEG</span></code>, <code class="docutils literal notranslate"><span class="pre">PLU_SAP</span></code>, <code class="docutils literal notranslate"><span class="pre">GRUCOM</span></code> y <code class="docutils literal notranslate"><span class="pre">OFERTA_ID</span></code>.</p>
+<p>Un aspecto importante es que la columna <code class="docutils literal notranslate"><span class="pre">FECHA</span></code> aparece en formato numérico serial de Excel, por lo que debe convertirse posteriormente a una fecha real. También se observa que <code class="docutils literal notranslate"><span class="pre">DESCUENTO</span></code> viene con coma decimal, por ejemplo <code class="docutils literal notranslate"><span class="pre">0,00</span></code>, lo que indica que esta variable debe limpiarse y transformarse a formato numérico antes de realizar cálculos.</p>
+<p>Además, la columna <code class="docutils literal notranslate"><span class="pre">CATEG</span></code> conserva ceros iniciales, como <code class="docutils literal notranslate"><span class="pre">04010</span></code> y <code class="docutils literal notranslate"><span class="pre">08061</span></code>, por lo que debe tratarse como texto y no como número para evitar perder información del código de categoría.</p>
+<p>En general, esta primera revisión confirma que la base está estructurada a nivel transaccional y que antes del análisis estadístico es necesario realizar una limpieza inicial de tipos de datos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Últimas filas</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>NroReg</th>
+      <th>FECHA</th>
+      <th>PDV</th>
+      <th>Estrato</th>
+      <th>OFERTA_ID</th>
+      <th>FACTURA</th>
+      <th>CATEG</th>
+      <th>PLU_SAP</th>
+      <th>CANT</th>
+      <th>VENTA</th>
+      <th>DESCUENTO</th>
+      <th>GRUCOM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>409755</th>
+      <td>8591485</td>
+      <td>45657</td>
+      <td>980</td>
+      <td>4</td>
+      <td>0</td>
+      <td>233742</td>
+      <td>04010</td>
+      <td>1036252</td>
+      <td>3</td>
+      <td>594</td>
+      <td>0,00</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>409756</th>
+      <td>8591507</td>
+      <td>45657</td>
+      <td>1255</td>
+      <td>4</td>
+      <td>225420</td>
+      <td>169556</td>
+      <td>04010</td>
+      <td>1026996</td>
+      <td>1</td>
+      <td>912</td>
+      <td>34,00</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>409757</th>
+      <td>8591516</td>
+      <td>45657</td>
+      <td>1255</td>
+      <td>4</td>
+      <td>0</td>
+      <td>222672</td>
+      <td>04010</td>
+      <td>1313279</td>
+      <td>1</td>
+      <td>198</td>
+      <td>0,00</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>409758</th>
+      <td>8591520</td>
+      <td>45657</td>
+      <td>980</td>
+      <td>4</td>
+      <td>227072</td>
+      <td>233879</td>
+      <td>04010</td>
+      <td>1377188</td>
+      <td>1</td>
+      <td>67</td>
+      <td>101,00</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>409759</th>
+      <td>8591532</td>
+      <td>45657</td>
+      <td>1255</td>
+      <td>4</td>
+      <td>0</td>
+      <td>209343</td>
+      <td>08029</td>
+      <td>1194777</td>
+      <td>0,04</td>
+      <td>23</td>
+      <td>0,00</td>
+      <td>11</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="revision-de-las-ultimas-filas-de-la-base">
+<h2>Revisión de las últimas filas de la base<a class="headerlink" href="#revision-de-las-ultimas-filas-de-la-base" title="Permalink to this heading">#</a></h2>
+<p>La visualización de las últimas filas permite confirmar que la base mantiene la misma estructura observada al inicio: cada fila representa una línea de venta asociada a una fecha, un punto de venta, una factura y un producto específico.</p>
+<p>En esta parte final del archivo se observa que la columna <code class="docutils literal notranslate"><span class="pre">FECHA</span></code> llega hasta el valor serial <code class="docutils literal notranslate"><span class="pre">45657</span></code>, lo que confirma que las fechas siguen almacenadas en formato numérico de Excel y deben convertirse a formato calendario para el análisis temporal.</p>
+<p>También se identifican registros con <code class="docutils literal notranslate"><span class="pre">OFERTA_ID</span></code> diferente de cero, como <code class="docutils literal notranslate"><span class="pre">225420</span></code> y <code class="docutils literal notranslate"><span class="pre">227072</span></code>, lo cual indica la presencia de ofertas o promociones en algunas líneas. Además, se observa un caso donde el descuento es mayor que la venta: una línea con <code class="docutils literal notranslate"><span class="pre">VENTA</span> <span class="pre">=</span> <span class="pre">67</span></code> y <code class="docutils literal notranslate"><span class="pre">DESCUENTO</span> <span class="pre">=</span> <span class="pre">101,00</span></code>. Este tipo de registro debe marcarse como caso especial, ya que genera una venta neta negativa.</p>
+<p>Otro punto importante es que la variable <code class="docutils literal notranslate"><span class="pre">CANT</span></code> puede contener valores decimales con coma, como <code class="docutils literal notranslate"><span class="pre">0,04</span></code>, por lo que no debe tratarse únicamente como una cantidad entera. Esto puede representar productos vendidos por peso, fracción o unidad parcial.</p>
+<p>En general, esta salida confirma que la base contiene registros promocionales, cantidades decimales y posibles casos especiales que deben ser tratados cuidadosamente durante la limpieza y el análisis de calidad de datos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Muestra aleatoria</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>NroReg</th>
+      <th>FECHA</th>
+      <th>PDV</th>
+      <th>Estrato</th>
+      <th>OFERTA_ID</th>
+      <th>FACTURA</th>
+      <th>CATEG</th>
+      <th>PLU_SAP</th>
+      <th>CANT</th>
+      <th>VENTA</th>
+      <th>DESCUENTO</th>
+      <th>GRUCOM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>105080</th>
+      <td>2278633</td>
+      <td>45100</td>
+      <td>1311</td>
+      <td>6</td>
+      <td>176424</td>
+      <td>70166</td>
+      <td>04010</td>
+      <td>1027276</td>
+      <td>1</td>
+      <td>468</td>
+      <td>200,00</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>357547</th>
+      <td>7518308</td>
+      <td>45548</td>
+      <td>1311</td>
+      <td>6</td>
+      <td>217077</td>
+      <td>215180</td>
+      <td>04010</td>
+      <td>1023807</td>
+      <td>1</td>
+      <td>990</td>
+      <td>660,00</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>318578</th>
+      <td>6663996</td>
+      <td>45463</td>
+      <td>1311</td>
+      <td>6</td>
+      <td>0</td>
+      <td>200776</td>
+      <td>04010</td>
+      <td>1021969</td>
+      <td>1</td>
+      <td>91</td>
+      <td>0,00</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>303618</th>
+      <td>6359494</td>
+      <td>45434</td>
+      <td>1255</td>
+      <td>4</td>
+      <td>204229</td>
+      <td>170958</td>
+      <td>08042</td>
+      <td>1015664</td>
+      <td>1</td>
+      <td>483</td>
+      <td>161,00</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>408731</th>
+      <td>8579712</td>
+      <td>45657</td>
+      <td>1311</td>
+      <td>6</td>
+      <td>0</td>
+      <td>233722</td>
+      <td>04010</td>
+      <td>1313279</td>
+      <td>1</td>
+      <td>198</td>
+      <td>0,00</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>400372</th>
+      <td>8442436</td>
+      <td>45643</td>
+      <td>1311</td>
+      <td>6</td>
+      <td>0</td>
+      <td>230925</td>
+      <td>08042</td>
+      <td>1014797</td>
+      <td>1</td>
+      <td>744</td>
+      <td>0,00</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>205668</th>
+      <td>4404517</td>
+      <td>45266</td>
+      <td>980</td>
+      <td>4</td>
+      <td>0</td>
+      <td>136269</td>
+      <td>04010</td>
+      <td>1336391</td>
+      <td>2</td>
+      <td>140</td>
+      <td>0,00</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>79962</th>
+      <td>1736947</td>
+      <td>45058</td>
+      <td>1311</td>
+      <td>6</td>
+      <td>0</td>
+      <td>53448</td>
+      <td>04010</td>
+      <td>1036252</td>
+      <td>1</td>
+      <td>169</td>
+      <td>0,00</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>171604</th>
+      <td>3705358</td>
+      <td>45210</td>
+      <td>980</td>
+      <td>4</td>
+      <td>0</td>
+      <td>114476</td>
+      <td>08061</td>
+      <td>1008766</td>
+      <td>1</td>
+      <td>149</td>
+      <td>0,00</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>379439</th>
+      <td>8004400</td>
+      <td>45598</td>
+      <td>1311</td>
+      <td>6</td>
+      <td>0</td>
+      <td>223193</td>
+      <td>04010</td>
+      <td>1371769</td>
+      <td>1</td>
+      <td>202</td>
+      <td>0,00</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="revision-de-una-muestra-aleatoria-de-registros">
+<h2>Revisión de una muestra aleatoria de registros<a class="headerlink" href="#revision-de-una-muestra-aleatoria-de-registros" title="Permalink to this heading">#</a></h2>
+<p>La muestra aleatoria permite observar registros de diferentes momentos de la base y confirmar que la estructura es consistente a lo largo del archivo. En estos registros se mantienen las mismas variables principales: fecha, punto de venta, factura, categoría, producto, cantidad, venta y descuento.</p>
+<p>Se observa que existen ventas tanto con promoción como sin promoción. Las líneas con <code class="docutils literal notranslate"><span class="pre">OFERTA_ID</span></code> diferente de cero indican posibles ventas asociadas a ofertas comerciales, mientras que las líneas con <code class="docutils literal notranslate"><span class="pre">OFERTA_ID</span> <span class="pre">=</span> <span class="pre">0</span></code> corresponden a registros sin oferta identificada.</p>
+<p>También se evidencia que los descuentos pueden variar considerablemente. Por ejemplo, hay líneas con descuentos altos frente al valor de venta, como ventas de <code class="docutils literal notranslate"><span class="pre">990</span></code> con descuento de <code class="docutils literal notranslate"><span class="pre">660,00</span></code> o ventas de <code class="docutils literal notranslate"><span class="pre">468</span></code> con descuento de <code class="docutils literal notranslate"><span class="pre">200,00</span></code>. Esto refuerza la importancia de calcular variables como <code class="docutils literal notranslate"><span class="pre">DESCUENTO_PCT</span></code> y <code class="docutils literal notranslate"><span class="pre">VENTA_NETA</span></code>.</p>
+<p>Además, la muestra incluye diferentes puntos de venta, principalmente <code class="docutils literal notranslate"><span class="pre">980</span></code>, <code class="docutils literal notranslate"><span class="pre">1255</span></code> y <code class="docutils literal notranslate"><span class="pre">1311</span></code>, lo que confirma que el análisis debe considerar diferencias por tienda. También aparecen distintas categorías, como <code class="docutils literal notranslate"><span class="pre">04010</span></code>, <code class="docutils literal notranslate"><span class="pre">08042</span></code> y <code class="docutils literal notranslate"><span class="pre">08061</span></code>, lo cual permite estudiar la composición de ventas por categoría.</p>
+<p>En conclusión, esta muestra confirma que la base contiene una combinación de registros promocionales y no promocionales, diferentes PDV, múltiples categorías y descuentos variables, por lo que el EDA debe analizar tanto el comportamiento comercial como la calidad de los datos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Columnas de la base</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">columnas</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;columna&quot;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="s2">&quot;tipo_dato&quot;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="s2">&quot;nulos&quot;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="s2">&quot;nulos_pct&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">values</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
+    <span class="s2">&quot;unicos&quot;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">nunique</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+<span class="p">})</span>
+
+<span class="n">columnas</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>columna</th>
+      <th>tipo_dato</th>
+      <th>nulos</th>
+      <th>nulos_pct</th>
+      <th>unicos</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>NroReg</td>
+      <td>int64</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>409760</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>FECHA</td>
+      <td>int64</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>731</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>PDV</td>
+      <td>str</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Estrato</td>
+      <td>str</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>OFERTA_ID</td>
+      <td>str</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>3123</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>FACTURA</td>
+      <td>str</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>233889</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>CATEG</td>
+      <td>str</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>PLU_SAP</td>
+      <td>str</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>6039</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>CANT</td>
+      <td>str</td>
+      <td>180</td>
+      <td>0.04</td>
+      <td>242</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>VENTA</td>
+      <td>int64</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>4083</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>DESCUENTO</td>
+      <td>str</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>1478</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>GRUCOM</td>
+      <td>str</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="resumen-inicial-de-columnas-tipos-de-datos-y-valores-nulos">
+<h2>Resumen inicial de columnas, tipos de datos y valores nulos<a class="headerlink" href="#resumen-inicial-de-columnas-tipos-de-datos-y-valores-nulos" title="Permalink to this heading">#</a></h2>
+<p>La tabla resume la estructura general de la base original. Se observa que el archivo contiene <strong>409.760 registros</strong>, ya que la columna <code class="docutils literal notranslate"><span class="pre">NroReg</span></code> tiene 409.760 valores únicos y no presenta valores nulos. Esto sugiere que <code class="docutils literal notranslate"><span class="pre">NroReg</span></code> funciona como identificador único de cada línea de venta.</p>
+<p>La columna <code class="docutils literal notranslate"><span class="pre">FECHA</span></code> tiene <strong>731 valores únicos</strong>, lo cual es consistente con una base de dos años completos de información diaria. Sin embargo, aparece como tipo <code class="docutils literal notranslate"><span class="pre">int64</span></code>, por lo que aún debe convertirse desde serial de Excel a formato fecha.</p>
+<p>Las variables <code class="docutils literal notranslate"><span class="pre">PDV</span></code>, <code class="docutils literal notranslate"><span class="pre">Estrato</span></code>, <code class="docutils literal notranslate"><span class="pre">CATEG</span></code> y <code class="docutils literal notranslate"><span class="pre">GRUCOM</span></code> presentan baja cardinalidad. En particular, la base contiene <strong>3 puntos de venta</strong>, <strong>2 estratos</strong>, <strong>7 categorías</strong> y <strong>2 grupos comerciales</strong>. Estas variables son útiles para segmentar el análisis comercial.</p>
+<p>La columna <code class="docutils literal notranslate"><span class="pre">PLU_SAP</span></code> tiene <strong>6.039 productos únicos</strong>, lo que indica una alta variedad de productos. Esta alta cardinalidad debe tenerse en cuenta en análisis posteriores, especialmente si se desea modelar ventas por producto.</p>
+<p>La columna <code class="docutils literal notranslate"><span class="pre">FACTURA</span></code> tiene <strong>233.889 valores únicos</strong>, pero no necesariamente identifica de forma única un ticket, ya que una misma factura puede repetirse entre fechas o puntos de venta. Por eso se recomienda construir un identificador de ticket combinando <code class="docutils literal notranslate"><span class="pre">FECHA</span></code>, <code class="docutils literal notranslate"><span class="pre">PDV</span></code> y <code class="docutils literal notranslate"><span class="pre">FACTURA</span></code>.</p>
+<p>En cuanto a valores nulos, casi todas las columnas están completas. La única columna con faltantes es <code class="docutils literal notranslate"><span class="pre">CANT</span></code>, con <strong>180 valores nulos</strong>, equivalentes al <strong>0,04%</strong> de la base. Aunque el porcentaje es bajo, estos registros deben revisarse porque la cantidad vendida es una variable clave para calcular unidades, precios unitarios y métricas comerciales.</p>
+<p>También se observa que <code class="docutils literal notranslate"><span class="pre">CANT</span></code> y <code class="docutils literal notranslate"><span class="pre">DESCUENTO</span></code> están como texto debido al uso de coma decimal. Por esta razón, deben limpiarse y convertirse a formato numérico antes de realizar cálculos.</p>
+<p>En general, la base tiene buena completitud, pero requiere una limpieza inicial de tipos de datos para poder realizar correctamente el EDA.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Información general del DataFrame</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.DataFrame&#39;&gt;
+RangeIndex: 409760 entries, 0 to 409759
+Data columns (total 12 columns):
+ #   Column     Non-Null Count   Dtype
+---  ------     --------------   -----
+ 0   NroReg     409760 non-null  int64
+ 1   FECHA      409760 non-null  int64
+ 2   PDV        409760 non-null  str  
+ 3   Estrato    409760 non-null  str  
+ 4   OFERTA_ID  409760 non-null  str  
+ 5   FACTURA    409760 non-null  str  
+ 6   CATEG      409760 non-null  str  
+ 7   PLU_SAP    409760 non-null  str  
+ 8   CANT       409580 non-null  str  
+ 9   VENTA      409760 non-null  int64
+ 10  DESCUENTO  409760 non-null  str  
+ 11  GRUCOM     409760 non-null  str  
+dtypes: int64(3), str(9)
+memory usage: 50.3 MB
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="informacion-general-del-dataframe">
+<h2>Información general del DataFrame<a class="headerlink" href="#informacion-general-del-dataframe" title="Permalink to this heading">#</a></h2>
+<p>La salida de <code class="docutils literal notranslate"><span class="pre">df.info()</span></code> confirma que la base contiene <strong>409.760 filas</strong> y <strong>12 columnas originales</strong>. El tamaño en memoria es de aproximadamente <strong>50,3 MB</strong>, por lo que es una base manejable para trabajar en Python con pandas.</p>
+<p>Se observa que la mayoría de las columnas fueron leídas como texto (<code class="docutils literal notranslate"><span class="pre">str</span></code>), especialmente las variables de identificación y clasificación como <code class="docutils literal notranslate"><span class="pre">PDV</span></code>, <code class="docutils literal notranslate"><span class="pre">Estrato</span></code>, <code class="docutils literal notranslate"><span class="pre">OFERTA_ID</span></code>, <code class="docutils literal notranslate"><span class="pre">FACTURA</span></code>, <code class="docutils literal notranslate"><span class="pre">CATEG</span></code>, <code class="docutils literal notranslate"><span class="pre">PLU_SAP</span></code> y <code class="docutils literal notranslate"><span class="pre">GRUCOM</span></code>. Esta decisión es adecuada porque estos campos representan códigos y no valores numéricos para operaciones matemáticas.</p>
+<p>Las columnas <code class="docutils literal notranslate"><span class="pre">NroReg</span></code>, <code class="docutils literal notranslate"><span class="pre">FECHA</span></code> y <code class="docutils literal notranslate"><span class="pre">VENTA</span></code> aparecen como enteros (<code class="docutils literal notranslate"><span class="pre">int64</span></code>). Sin embargo, aunque <code class="docutils literal notranslate"><span class="pre">FECHA</span></code> está como número, realmente representa una fecha en formato serial de Excel, por lo que debe transformarse posteriormente a una variable tipo fecha.</p>
+<p>La única columna con valores faltantes es <code class="docutils literal notranslate"><span class="pre">CANT</span></code>, con <strong>409.580 registros no nulos</strong> de un total de <strong>409.760</strong>, lo que indica <strong>180 valores faltantes</strong>. Esta variable deberá limpiarse y convertirse a formato numérico, ya que actualmente está como texto debido a la presencia de cantidades decimales con coma.</p>
+<p>También se confirma que <code class="docutils literal notranslate"><span class="pre">DESCUENTO</span></code> está como texto, por lo que debe convertirse a número antes de calcular variables como <code class="docutils literal notranslate"><span class="pre">VENTA_NETA</span></code>, <code class="docutils literal notranslate"><span class="pre">DESCUENTO_PCT</span></code> y precios unitarios.</p>
+<p>En síntesis, la base tiene buena completitud general, pero requiere limpieza de tipos de datos antes del análisis estadístico: conversión de fechas, conversión de cantidades y descuentos a numérico, y conservación de códigos como texto.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Dimensiones generales</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">n_filas</span><span class="p">,</span> <span class="n">n_columnas</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Número de filas: </span><span class="si">{</span><span class="n">n_filas</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Número de columnas: </span><span class="si">{</span><span class="n">n_columnas</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Número total de celdas: </span><span class="si">{</span><span class="n">n_filas</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n_columnas</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Número de filas: 409,760
+Número de columnas: 12
+Número total de celdas: 4,917,120
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="dimensiones-generales-de-la-base">
+<h2>Dimensiones generales de la base<a class="headerlink" href="#dimensiones-generales-de-la-base" title="Permalink to this heading">#</a></h2>
+<p>La base contiene <strong>409.760 filas</strong> y <strong>12 columnas</strong>, para un total de <strong>4.917.120 celdas</strong> de información.</p>
+<p>Este tamaño indica que se trata de una base con volumen suficiente para realizar un análisis exploratorio robusto, especialmente porque permite estudiar patrones por fecha, punto de venta, producto, categoría, factura, cantidad, venta y descuento.</p>
+<p>El número de filas confirma que la información está a nivel de <strong>línea de venta</strong> y no a nivel de factura agregada. Es decir, una misma factura puede aparecer en varias filas si contiene varios productos comprados.</p>
+<p>En general, el tamaño de la base es adecuado para trabajar con pandas y permite realizar análisis detallados sin requerir todavía herramientas de procesamiento distribuido.</p>
+</section>
+<section id="diccionario-inicial-de-variables">
+<h2>Diccionario inicial de variables<a class="headerlink" href="#diccionario-inicial-de-variables" title="Permalink to this heading">#</a></h2>
+<p>A partir de la estructura observada, la base contiene las siguientes variables:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Descripción inicial</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NroReg</span></code></p></td>
+<td><p>Identificador de registro o línea de venta</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">FECHA</span></code></p></td>
+<td><p>Fecha de la transacción en formato serial de Excel</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PDV</span></code></p></td>
+<td><p>Punto de venta o tienda</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Estrato</span></code></p></td>
+<td><p>Estrato asociado al punto de venta</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">OFERTA_ID</span></code></p></td>
+<td><p>Identificador de oferta o promoción</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">FACTURA</span></code></p></td>
+<td><p>Número de factura</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CATEG</span></code></p></td>
+<td><p>Categoría del producto</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PLU_SAP</span></code></p></td>
+<td><p>Código del producto o SKU</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CANT</span></code></p></td>
+<td><p>Cantidad vendida</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">VENTA</span></code></p></td>
+<td><p>Valor bruto de la venta</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DESCUENTO</span></code></p></td>
+<td><p>Valor del descuento aplicado</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GRUCOM</span></code></p></td>
+<td><p>Grupo comercial</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Una observación importante es que la base parece estar a nivel de línea de venta, no a nivel de factura completa. Es decir, una misma factura puede aparecer en varias filas si contiene varios productos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Valores nulos</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">nulos</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="s2">&quot;columna&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;nulos&quot;</span><span class="p">})</span>
+<span class="p">)</span>
+
+<span class="n">nulos</span><span class="p">[</span><span class="s2">&quot;nulos_pct&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">nulos</span><span class="p">[</span><span class="s2">&quot;nulos&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">nulos</span> <span class="o">=</span> <span class="n">nulos</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;nulos&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">nulos</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>columna</th>
+      <th>nulos</th>
+      <th>nulos_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>8</th>
+      <td>CANT</td>
+      <td>180</td>
+      <td>0.04</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>NroReg</td>
+      <td>0</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>PDV</td>
+      <td>0</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>FECHA</td>
+      <td>0</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Estrato</td>
+      <td>0</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>OFERTA_ID</td>
+      <td>0</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>CATEG</td>
+      <td>0</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>FACTURA</td>
+      <td>0</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>PLU_SAP</td>
+      <td>0</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>VENTA</td>
+      <td>0</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>DESCUENTO</td>
+      <td>0</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>GRUCOM</td>
+      <td>0</td>
+      <td>0.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="revision-de-valores-nulos">
+<h2>Revisión de valores nulos<a class="headerlink" href="#revision-de-valores-nulos" title="Permalink to this heading">#</a></h2>
+<p>La revisión de valores nulos muestra que la base tiene una completitud muy alta. De las 12 columnas originales, únicamente <code class="docutils literal notranslate"><span class="pre">CANT</span></code> presenta valores faltantes.</p>
+<p>La columna <code class="docutils literal notranslate"><span class="pre">CANT</span></code> tiene <strong>180 valores nulos</strong>, equivalentes al <strong>0,04%</strong> del total de registros. Aunque este porcentaje es muy bajo, la variable debe revisarse porque representa la cantidad vendida y es necesaria para calcular unidades totales, precios unitarios y métricas relacionadas con el volumen de venta.</p>
+<p>El resto de columnas no presenta valores nulos, incluyendo variables clave como <code class="docutils literal notranslate"><span class="pre">FECHA</span></code>, <code class="docutils literal notranslate"><span class="pre">PDV</span></code>, <code class="docutils literal notranslate"><span class="pre">FACTURA</span></code>, <code class="docutils literal notranslate"><span class="pre">CATEG</span></code>, <code class="docutils literal notranslate"><span class="pre">PLU_SAP</span></code>, <code class="docutils literal notranslate"><span class="pre">VENTA</span></code> y <code class="docutils literal notranslate"><span class="pre">DESCUENTO</span></code>. Esto es positivo porque indica que la base tiene buena calidad inicial en términos de completitud.</p>
+<p>En conclusión, el problema de valores faltantes es mínimo y se concentra únicamente en la variable <code class="docutils literal notranslate"><span class="pre">CANT</span></code>. En la etapa de limpieza estos registros deben marcarse o tratarse con cuidado, pero no representan un problema crítico para el análisis general.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Columnas con valores nulos</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">nulos</span><span class="p">[</span><span class="n">nulos</span><span class="p">[</span><span class="s2">&quot;nulos&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>columna</th>
+      <th>nulos</th>
+      <th>nulos_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>8</th>
+      <td>CANT</td>
+      <td>180</td>
+      <td>0.04</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="columnas-con-valores-faltantes">
+<h2>Columnas con valores faltantes<a class="headerlink" href="#columnas-con-valores-faltantes" title="Permalink to this heading">#</a></h2>
+<p>Al filtrar únicamente las columnas con valores nulos, se confirma que <code class="docutils literal notranslate"><span class="pre">CANT</span></code> es la única variable con datos faltantes en la base.</p>
+<p>Esta columna presenta <strong>180 registros nulos</strong>, equivalentes al <strong>0,04%</strong> del total. Aunque la proporción es baja, es importante tenerla en cuenta porque <code class="docutils literal notranslate"><span class="pre">CANT</span></code> representa la cantidad vendida y se utiliza para calcular unidades, precios unitarios y métricas de volumen.</p>
+<p>Dado que el porcentaje de nulos es muy pequeño, estos casos no afectan de forma significativa el análisis general. Sin embargo, durante la limpieza se recomienda marcarlos con una bandera de calidad o excluirlos en cálculos donde la cantidad sea indispensable.</p>
+<p>En general, la base muestra una buena completitud, ya que todas las demás columnas están completamente diligenciadas.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Duplicados completos</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">duplicados_completos</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filas duplicadas completas: </span><span class="si">{</span><span class="n">duplicados_completos</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Porcentaje de duplicados completos: </span><span class="si">{</span><span class="n">duplicados_completos</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Filas duplicadas completas: 0
+Porcentaje de duplicados completos: 0.0000%
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="revision-de-duplicados-completos">
+<h2>Revisión de duplicados completos<a class="headerlink" href="#revision-de-duplicados-completos" title="Permalink to this heading">#</a></h2>
+<p>La revisión de duplicados completos muestra que la base no contiene filas repetidas exactamente iguales. El número de duplicados encontrados es <strong>0</strong>, equivalente al <strong>0,0000%</strong> del total de registros.</p>
+<p>Este resultado es positivo porque indica que no hay registros duplicados de forma directa que puedan inflar artificialmente las ventas, las cantidades o los descuentos.</p>
+<p>Sin embargo, esto no significa que no puedan existir facturas repetidas, ya que la base está a nivel de línea de venta. Una misma factura puede aparecer varias veces si contiene varios productos. Por eso, la validación de duplicados completos debe complementarse con el análisis de identificadores como <code class="docutils literal notranslate"><span class="pre">NroReg</span></code>, <code class="docutils literal notranslate"><span class="pre">FACTURA</span></code> y posteriormente <code class="docutils literal notranslate"><span class="pre">TICKET_ID</span></code>.</p>
+<p>En conclusión, no es necesario eliminar filas duplicadas completas en esta etapa del análisis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Revisión de duplicados en NroReg</span>
+<span class="c1"># ===============================</span>
+
+<span class="k">if</span> <span class="s2">&quot;NroReg&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">duplicados_nroreg</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;NroReg&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;NroReg duplicados: </span><span class="si">{</span><span class="n">duplicados_nroreg</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;NroReg únicos: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;NroReg&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;La columna NroReg no existe en la base.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NroReg duplicados: 0
+NroReg únicos: 409,760
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="revision-de-duplicados-en-nroreg">
+<h2>Revisión de duplicados en <code class="docutils literal notranslate"><span class="pre">NroReg</span></code><a class="headerlink" href="#revision-de-duplicados-en-nroreg" title="Permalink to this heading">#</a></h2>
+<p>La columna <code class="docutils literal notranslate"><span class="pre">NroReg</span></code> no presenta valores duplicados. Se identifican <strong>409.760 valores únicos</strong>, exactamente el mismo número de filas de la base.</p>
+<p>Esto indica que <code class="docutils literal notranslate"><span class="pre">NroReg</span></code> funciona como un identificador único para cada línea de venta. Por tanto, cada registro de la base tiene un código propio y no se repite dentro del archivo.</p>
+<p>Este resultado es positivo para el EDA, ya que permite tener trazabilidad a nivel de registro individual y confirma que no hay duplicación directa en el identificador principal de las líneas.</p>
+<p>En conclusión, <code class="docutils literal notranslate"><span class="pre">NroReg</span></code> puede usarse como identificador único de línea, aunque no representa una factura completa ni un ticket de compra.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Cardinalidad de variables principales</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">variables_clave</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;FECHA&quot;</span><span class="p">,</span> <span class="s2">&quot;PDV&quot;</span><span class="p">,</span> <span class="s2">&quot;Estrato&quot;</span><span class="p">,</span> <span class="s2">&quot;OFERTA_ID&quot;</span><span class="p">,</span> <span class="s2">&quot;FACTURA&quot;</span><span class="p">,</span> <span class="s2">&quot;CATEG&quot;</span><span class="p">,</span> <span class="s2">&quot;PLU_SAP&quot;</span><span class="p">,</span> <span class="s2">&quot;GRUCOM&quot;</span><span class="p">]</span>
+
+<span class="n">cardinalidad</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">variables_clave</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">cardinalidad</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">col</span><span class="p">,</span>
+            <span class="s2">&quot;valores_unicos&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+            <span class="s2">&quot;porcentaje_sobre_filas&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="p">})</span>
+
+<span class="n">cardinalidad</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cardinalidad</span><span class="p">)</span>
+<span class="n">cardinalidad</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>variable</th>
+      <th>valores_unicos</th>
+      <th>porcentaje_sobre_filas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>FECHA</td>
+      <td>731</td>
+      <td>0.18</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>PDV</td>
+      <td>3</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Estrato</td>
+      <td>2</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>OFERTA_ID</td>
+      <td>3123</td>
+      <td>0.76</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>FACTURA</td>
+      <td>233889</td>
+      <td>57.08</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>CATEG</td>
+      <td>7</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>PLU_SAP</td>
+      <td>6039</td>
+      <td>1.47</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>GRUCOM</td>
+      <td>2</td>
+      <td>0.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="cardinalidad-de-variables-principales">
+<h2>Cardinalidad de variables principales<a class="headerlink" href="#cardinalidad-de-variables-principales" title="Permalink to this heading">#</a></h2>
+<p>La tabla de cardinalidad muestra cuántos valores únicos tiene cada variable clave dentro de la base.</p>
+<p>La columna <code class="docutils literal notranslate"><span class="pre">FECHA</span></code> presenta <strong>731 valores únicos</strong>, lo cual indica que la base contiene información para 731 días distintos. Esto es consistente con una cobertura aproximada de dos años completos de ventas diarias.</p>
+<p>La variable <code class="docutils literal notranslate"><span class="pre">PDV</span></code> tiene <strong>3 valores únicos</strong>, por lo que el análisis se concentra en tres puntos de venta. A su vez, <code class="docutils literal notranslate"><span class="pre">Estrato</span></code> tiene <strong>2 valores únicos</strong>, lo que sugiere que los PDV pertenecen a dos grupos de estrato diferentes.</p>
+<p>La columna <code class="docutils literal notranslate"><span class="pre">FACTURA</span></code> presenta <strong>233.889 valores únicos</strong>, lo que representa el <strong>57,08%</strong> del total de filas. Esto indica que muchas facturas aparecen en más de una línea, lo cual es esperable en una base transaccional donde una factura puede contener varios productos.</p>
+<p>La variable <code class="docutils literal notranslate"><span class="pre">PLU_SAP</span></code> tiene <strong>6.039 productos únicos</strong>, evidenciando una alta variedad de productos. Esta alta cardinalidad será importante en el análisis de productos y en futuras decisiones de modelado, ya que trabajar directamente a nivel producto puede generar muchas combinaciones.</p>
+<p>La columna <code class="docutils literal notranslate"><span class="pre">CATEG</span></code> tiene <strong>7 categorías únicas</strong>, mientras que <code class="docutils literal notranslate"><span class="pre">GRUCOM</span></code> tiene <strong>2 grupos comerciales</strong>. Esto permite construir análisis más agregados y estables por categoría o grupo comercial.</p>
+<p>Finalmente, <code class="docutils literal notranslate"><span class="pre">OFERTA_ID</span></code> tiene <strong>3.123 valores únicos</strong>, lo que indica una cantidad considerable de identificadores de oferta o promoción. Esta variable será relevante para analizar el comportamiento promocional de las ventas.</p>
+<p>En conclusión, la base combina variables de baja cardinalidad, como <code class="docutils literal notranslate"><span class="pre">PDV</span></code>, <code class="docutils literal notranslate"><span class="pre">Estrato</span></code>, <code class="docutils literal notranslate"><span class="pre">CATEG</span></code> y <code class="docutils literal notranslate"><span class="pre">GRUCOM</span></code>, con variables de alta cardinalidad, como <code class="docutils literal notranslate"><span class="pre">FACTURA</span></code>, <code class="docutils literal notranslate"><span class="pre">PLU_SAP</span></code> y <code class="docutils literal notranslate"><span class="pre">OFERTA_ID</span></code>. Esto confirma que el EDA debe analizar tanto niveles agregados como niveles más detallados.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Valores únicos en variables categóricas pequeñas</span>
+<span class="c1"># ===============================</span>
+
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;PDV&quot;</span><span class="p">,</span> <span class="s2">&quot;Estrato&quot;</span><span class="p">,</span> <span class="s2">&quot;CATEG&quot;</span><span class="p">,</span> <span class="s2">&quot;GRUCOM&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variable: </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>============================================================
+Variable: PDV
+PDV
+1255    132627
+1311    201432
+980      75701
+Name: count, dtype: int64
+============================================================
+Variable: Estrato
+Estrato
+4    208328
+6    201432
+Name: count, dtype: int64
+============================================================
+Variable: CATEG
+CATEG
+04010    158659
+04019       397
+08029    132505
+08042     52788
+08061     53538
+08062     10997
+08067       876
+Name: count, dtype: int64
+============================================================
+Variable: GRUCOM
+GRUCOM
+10    159056
+11    250704
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="distribucion-de-variables-categoricas-principales">
+<h2>Distribución de variables categóricas principales<a class="headerlink" href="#distribucion-de-variables-categoricas-principales" title="Permalink to this heading">#</a></h2>
+<p>La distribución de frecuencias permite observar cómo se reparten los registros entre los principales grupos de la base.</p>
+<p>En la variable <code class="docutils literal notranslate"><span class="pre">PDV</span></code>, el punto de venta con mayor número de líneas es el <strong>1311</strong>, con <strong>201.432 registros</strong>. Le sigue el PDV <strong>1255</strong>, con <strong>132.627 registros</strong>, y finalmente el PDV <strong>980</strong>, con <strong>75.701 registros</strong>. Esto muestra que la base no está balanceada por tienda, ya que el PDV 1311 concentra una proporción importante de las ventas registradas.</p>
+<p>En la variable <code class="docutils literal notranslate"><span class="pre">Estrato</span></code>, se observan dos valores: <strong>4</strong> y <strong>6</strong>. El estrato 4 tiene <strong>208.328 registros</strong>, mientras que el estrato 6 tiene <strong>201.432 registros</strong>. Además, la frecuencia del estrato 6 coincide exactamente con la cantidad de registros del PDV 1311, lo que sugiere que ese punto de venta está asociado a dicho estrato.</p>
+<p>En cuanto a <code class="docutils literal notranslate"><span class="pre">CATEG</span></code>, las categorías con mayor presencia son <strong>04010</strong>, con <strong>158.659 registros</strong>, y <strong>08029</strong>, con <strong>132.505 registros</strong>. También tienen una participación relevante las categorías <strong>08061</strong> y <strong>08042</strong>. En cambio, categorías como <strong>04019</strong> y <strong>08067</strong> tienen muy pocos registros, por lo que deben analizarse con cuidado porque pueden tener baja representatividad.</p>
+<p>La variable <code class="docutils literal notranslate"><span class="pre">GRUCOM</span></code> presenta dos grupos comerciales. El grupo <strong>11</strong> concentra <strong>250.704 registros</strong>, mientras que el grupo <strong>10</strong> contiene <strong>159.056 registros</strong>. Esto indica que el grupo comercial 11 tiene mayor presencia en términos de líneas de venta.</p>
+<p>En conclusión, la base presenta una concentración importante en ciertos PDV y categorías. Por esta razón, los análisis posteriores deben segmentarse por tienda, categoría y grupo comercial para evitar conclusiones generales que oculten diferencias relevantes entre segmentos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Conversión preliminar de fecha</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;FECHA_REAL_PRELIM&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;FECHA&quot;</span><span class="p">],</span>
+    <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">,</span>
+    <span class="n">origin</span><span class="o">=</span><span class="s2">&quot;1899-12-30&quot;</span><span class="p">,</span>
+    <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fecha mínima:&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;FECHA_REAL_PRELIM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fecha máxima:&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;FECHA_REAL_PRELIM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Días únicos:&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;FECHA_REAL_PRELIM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fecha mínima: 2023-01-01 00:00:00
+Fecha máxima: 2024-12-31 00:00:00
+Días únicos: 731
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="conversion-preliminar-de-la-fecha">
+<h2>Conversión preliminar de la fecha<a class="headerlink" href="#conversion-preliminar-de-la-fecha" title="Permalink to this heading">#</a></h2>
+<p>La conversión preliminar de la columna <code class="docutils literal notranslate"><span class="pre">FECHA</span></code> confirma que los valores numéricos corresponden a fechas reales en formato serial de Excel.</p>
+<p>El periodo disponible en la base va desde el <strong>1 de enero de 2023</strong> hasta el <strong>31 de diciembre de 2024</strong>, con un total de <strong>731 días únicos</strong>.</p>
+<p>Este resultado es muy importante porque indica que la base cubre <strong>dos años completos de información diaria</strong>. Esto permite realizar análisis temporales robustos, como comparación entre años, comportamiento mensual, patrones por día de la semana, quincenas, fines de mes y estacionalidad.</p>
+<p>Además, tener información diaria continua es una ventaja para una futura etapa de modelado, ya que permite construir variables temporales, rezagos y medias móviles de ventas.</p>
+<p>En conclusión, la variable <code class="docutils literal notranslate"><span class="pre">FECHA</span></code> fue interpretada correctamente y la base cuenta con una cobertura temporal adecuada para un análisis exploratorio completo.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Revisión de fechas faltantes</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">fecha_min</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;FECHA_REAL_PRELIM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">fecha_max</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;FECHA_REAL_PRELIM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+<span class="n">rango_fechas</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">fecha_min</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">fecha_max</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">)</span>
+<span class="n">fechas_observadas</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;FECHA_REAL_PRELIM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+
+<span class="n">fechas_faltantes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">rango_fechas</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">fechas_observadas</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fecha inicial: </span><span class="si">{</span><span class="n">fecha_min</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fecha final: </span><span class="si">{</span><span class="n">fecha_max</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Días esperados en el rango: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rango_fechas</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Días observados: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;FECHA_REAL_PRELIM&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Días faltantes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">fechas_faltantes</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fechas_faltantes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Primeras fechas faltantes:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fechas_faltantes</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">No se encontraron fechas faltantes en el rango.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fecha inicial: 2023-01-01
+Fecha final: 2024-12-31
+Días esperados en el rango: 731
+Días observados: 731
+Días faltantes: 0
+
+No se encontraron fechas faltantes en el rango.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="validacion-de-cobertura-temporal">
+<h2>Validación de cobertura temporal<a class="headerlink" href="#validacion-de-cobertura-temporal" title="Permalink to this heading">#</a></h2>
+<p>La validación de cobertura temporal muestra que la base inicia el <strong>1 de enero de 2023</strong> y finaliza el <strong>31 de diciembre de 2024</strong>.</p>
+<p>Dentro de ese rango se esperaban <strong>731 días</strong> y se observaron exactamente <strong>731 días</strong>, por lo que no existen fechas faltantes en el periodo analizado.</p>
+<p>Este resultado es muy positivo para el EDA, ya que confirma que la base tiene continuidad diaria durante dos años completos. Esto permite realizar análisis temporales sin necesidad de imputar días ausentes ni corregir huecos en la serie.</p>
+<p>En conclusión, la cobertura temporal de la base es completa y adecuada para estudiar patrones diarios, semanales, mensuales, anuales, quincenales y de cierre de mes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Resumen preliminar por año</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;ANIO_PRELIM&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;FECHA_REAL_PRELIM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
+
+<span class="n">resumen_anio</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;ANIO_PRELIM&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">filas</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;NroReg&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">),</span>
+        <span class="n">dias</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;FECHA_REAL_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">),</span>
+        <span class="n">pdv</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;PDV&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">),</span>
+        <span class="n">productos</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;PLU_SAP&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">),</span>
+        <span class="n">categorias</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;CATEG&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">),</span>
+        <span class="n">facturas</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;FACTURA&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">resumen_anio</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ANIO_PRELIM</th>
+      <th>filas</th>
+      <th>dias</th>
+      <th>pdv</th>
+      <th>productos</th>
+      <th>categorias</th>
+      <th>facturas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2023</td>
+      <td>228150</td>
+      <td>365</td>
+      <td>3</td>
+      <td>5410</td>
+      <td>7</td>
+      <td>150248</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2024</td>
+      <td>181610</td>
+      <td>366</td>
+      <td>3</td>
+      <td>4845</td>
+      <td>7</td>
+      <td>85270</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="resumen-preliminar-por-ano">
+<h2>Resumen preliminar por año<a class="headerlink" href="#resumen-preliminar-por-ano" title="Permalink to this heading">#</a></h2>
+<p>El resumen por año muestra que la base contiene información para <strong>2023</strong> y <strong>2024</strong>, manteniendo los <strong>3 puntos de venta</strong> y las <strong>7 categorías</strong> en ambos años.</p>
+<p>En 2023 se registran <strong>228.150 filas</strong>, mientras que en 2024 se registran <strong>181.610 filas</strong>. Esto indica que el volumen de registros en 2024 es menor que en 2023. Esta diferencia debe analizarse posteriormente para determinar si corresponde a una caída real de ventas, cambios en la extracción de datos, menor actividad comercial o diferencias en el comportamiento de los productos.</p>
+<p>En cuanto a cobertura temporal, 2023 tiene <strong>365 días</strong> y 2024 tiene <strong>366 días</strong>, lo cual es correcto porque 2024 fue año bisiesto. Esto confirma nuevamente que no hay huecos de fechas dentro del periodo analizado.</p>
+<p>También se observa que el número de productos únicos disminuye de <strong>5.410 productos en 2023</strong> a <strong>4.845 productos en 2024</strong>. Esto puede indicar cambios en el surtido, productos descontinuados, menor rotación o diferencias en la operación comercial entre ambos años.</p>
+<p>Finalmente, las facturas únicas pasan de <strong>150.248 en 2023</strong> a <strong>85.270 en 2024</strong>, una reducción importante que debe revisarse con más detalle en el análisis de tickets y comportamiento temporal.</p>
+<p>En conclusión, aunque la cobertura de días, PDV y categorías es completa en ambos años, sí se observa una reducción relevante en filas, productos y facturas durante 2024, lo cual será un punto clave para el análisis temporal.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Conversión preliminar de columnas numéricas</span>
+<span class="c1"># ===============================</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">convertir_decimal_preliminar</span><span class="p">(</span><span class="n">serie</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convierte una serie con posibles comas decimales a formato numérico.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span>
+        <span class="n">serie</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+        <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span>
+    <span class="p">)</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;CANT_PRELIM&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">convertir_decimal_preliminar</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;CANT&quot;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;VENTA_PRELIM&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;VENTA&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;DESCUENTO_PRELIM&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">convertir_decimal_preliminar</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;DESCUENTO&quot;</span><span class="p">])</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;VENTA_NETA_PRELIM&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;VENTA_PRELIM&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;DESCUENTO_PRELIM&quot;</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Conversión preliminar finalizada.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Conversión preliminar finalizada.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Estadísticos descriptivos preliminares</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">cols_numericas_prelim</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;CANT_PRELIM&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;VENTA_PRELIM&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DESCUENTO_PRELIM&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;VENTA_NETA_PRELIM&quot;</span>
+<span class="p">]</span>
+
+<span class="n">df</span><span class="p">[</span><span class="n">cols_numericas_prelim</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>CANT_PRELIM</th>
+      <td>409,580.00</td>
+      <td>1.21</td>
+      <td>3.51</td>
+      <td>-24.00</td>
+      <td>1.00</td>
+      <td>1.00</td>
+      <td>1.00</td>
+      <td>800.00</td>
+    </tr>
+    <tr>
+      <th>VENTA_PRELIM</th>
+      <td>409,760.00</td>
+      <td>340.35</td>
+      <td>807.68</td>
+      <td>-32,896.00</td>
+      <td>83.00</td>
+      <td>178.00</td>
+      <td>398.00</td>
+      <td>195,457.00</td>
+    </tr>
+    <tr>
+      <th>DESCUENTO_PRELIM</th>
+      <td>409,760.00</td>
+      <td>39.71</td>
+      <td>269.24</td>
+      <td>-862.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>8.00</td>
+      <td>80,080.00</td>
+    </tr>
+    <tr>
+      <th>VENTA_NETA_PRELIM</th>
+      <td>409,760.00</td>
+      <td>300.65</td>
+      <td>754.94</td>
+      <td>-43,460.00</td>
+      <td>75.00</td>
+      <td>164.00</td>
+      <td>342.00</td>
+      <td>195,457.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="estadisticos-descriptivos-preliminares">
+<h2>Estadísticos descriptivos preliminares<a class="headerlink" href="#estadisticos-descriptivos-preliminares" title="Permalink to this heading">#</a></h2>
+<p>Los estadísticos descriptivos permiten observar el comportamiento inicial de las variables numéricas después de una conversión preliminar.</p>
+<p>La variable <code class="docutils literal notranslate"><span class="pre">CANT_PRELIM</span></code> tiene <strong>409.580 valores válidos</strong>, lo que confirma que existen <strong>180 registros sin cantidad</strong>. Su mediana es <strong>1</strong>, lo que indica que la mayoría de líneas corresponden a ventas de una unidad o cantidades pequeñas. Sin embargo, se observan valores extremos, desde <strong>-24</strong> hasta <strong>800</strong>, por lo que existen cantidades negativas y cantidades muy altas que deben revisarse como posibles devoluciones, ajustes o registros atípicos.</p>
+<p>La variable <code class="docutils literal notranslate"><span class="pre">VENTA_PRELIM</span></code> tiene un promedio de <strong>340,35</strong> y una mediana de <strong>178</strong>, lo que muestra una distribución asimétrica: la media es mayor que la mediana debido a valores altos de venta. También se observa un valor mínimo negativo de <strong>-32.896</strong> y un máximo de <strong>195.457</strong>, lo que confirma la presencia de ventas negativas y ventas extremadamente altas.</p>
+<p>En <code class="docutils literal notranslate"><span class="pre">DESCUENTO_PRELIM</span></code>, la mediana es <strong>0</strong>, lo que indica que al menos la mitad de las líneas no tienen descuento. Sin embargo, el descuento máximo llega a <strong>80.080</strong> y el mínimo es <strong>-862</strong>, lo cual evidencia la existencia de descuentos extremos y algunos descuentos negativos que deben analizarse como casos especiales.</p>
+<p>La variable <code class="docutils literal notranslate"><span class="pre">VENTA_NETA_PRELIM</span></code>, calculada como <code class="docutils literal notranslate"><span class="pre">VENTA</span> <span class="pre">-</span> <span class="pre">DESCUENTO</span></code>, presenta una media de <strong>300,65</strong> y una mediana de <strong>164</strong>. También tiene valores negativos, con un mínimo de <strong>-43.460</strong>, lo que confirma que existen registros donde el descuento supera la venta o donde hay posibles devoluciones o ajustes.</p>
+<p>En conclusión, aunque la mayoría de los registros parecen concentrarse en valores normales de cantidad, venta y descuento, existen valores negativos y extremos que deben ser marcados en la etapa de limpieza y analizados posteriormente en el notebook de calidad de datos y outliers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Casos especiales preliminares</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">casos_especiales</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Filas totales&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span>
+    <span class="s2">&quot;CANT nula&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;CANT_PRELIM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+    <span class="s2">&quot;CANT igual a 0&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;CANT_PRELIM&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+    <span class="s2">&quot;CANT negativa&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;CANT_PRELIM&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+    <span class="s2">&quot;VENTA nula&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;VENTA_PRELIM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+    <span class="s2">&quot;VENTA igual a 0&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;VENTA_PRELIM&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+    <span class="s2">&quot;VENTA negativa&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;VENTA_PRELIM&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+    <span class="s2">&quot;DESCUENTO nulo&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;DESCUENTO_PRELIM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+    <span class="s2">&quot;DESCUENTO igual a 0&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;DESCUENTO_PRELIM&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+    <span class="s2">&quot;DESCUENTO negativo&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;DESCUENTO_PRELIM&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+    <span class="s2">&quot;DESCUENTO mayor que VENTA&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;DESCUENTO_PRELIM&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;VENTA_PRELIM&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+    <span class="s2">&quot;VENTA_NETA negativa&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;VENTA_NETA_PRELIM&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+    <span class="s2">&quot;VENTA_NETA igual a 0&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;VENTA_NETA_PRELIM&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="n">casos_especiales_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">casos_especiales</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;caso&quot;</span><span class="p">,</span> <span class="s2">&quot;cantidad&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">casos_especiales_df</span><span class="p">[</span><span class="s2">&quot;porcentaje&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">casos_especiales_df</span><span class="p">[</span><span class="s2">&quot;cantidad&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">casos_especiales_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>caso</th>
+      <th>cantidad</th>
+      <th>porcentaje</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Filas totales</td>
+      <td>409760</td>
+      <td>100.00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CANT nula</td>
+      <td>180</td>
+      <td>0.04</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CANT igual a 0</td>
+      <td>2322</td>
+      <td>0.57</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CANT negativa</td>
+      <td>133</td>
+      <td>0.03</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>VENTA nula</td>
+      <td>0</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>VENTA igual a 0</td>
+      <td>3470</td>
+      <td>0.85</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>VENTA negativa</td>
+      <td>1763</td>
+      <td>0.43</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>DESCUENTO nulo</td>
+      <td>0</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>DESCUENTO igual a 0</td>
+      <td>300755</td>
+      <td>73.40</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>DESCUENTO negativo</td>
+      <td>12</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>DESCUENTO mayor que VENTA</td>
+      <td>8799</td>
+      <td>2.15</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>VENTA_NETA negativa</td>
+      <td>8799</td>
+      <td>2.15</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>VENTA_NETA igual a 0</td>
+      <td>4521</td>
+      <td>1.10</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="revision-preliminar-de-casos-especiales">
+<h2>Revisión preliminar de casos especiales<a class="headerlink" href="#revision-preliminar-de-casos-especiales" title="Permalink to this heading">#</a></h2>
+<p>La tabla de casos especiales permite identificar registros que requieren revisión antes de continuar con análisis más avanzados.</p>
+<p>En primer lugar, se confirma que la base contiene <strong>409.760 filas</strong>. La variable <code class="docutils literal notranslate"><span class="pre">CANT</span></code> presenta <strong>180 valores nulos</strong>, equivalentes al <strong>0,04%</strong>, lo cual representa una proporción muy baja. Sin embargo, también existen <strong>2.322 registros con cantidad igual a cero</strong> y <strong>133 registros con cantidad negativa</strong>. Estos casos deben marcarse porque pueden corresponder a devoluciones, ajustes, productos vendidos por fracción, errores de digitación o movimientos especiales.</p>
+<p>La variable <code class="docutils literal notranslate"><span class="pre">VENTA</span></code> no tiene valores nulos, pero sí presenta <strong>3.470 registros con venta igual a cero</strong> y <strong>1.763 registros con venta negativa</strong>. Estos registros no deben eliminarse automáticamente, ya que en contextos comerciales pueden estar asociados a devoluciones, anulaciones, notas crédito o ajustes operativos.</p>
+<p>En cuanto a <code class="docutils literal notranslate"><span class="pre">DESCUENTO</span></code>, la mayoría de los registros no tienen descuento: <strong>300.755 líneas</strong>, equivalentes al <strong>73,40%</strong>, tienen descuento igual a cero. Esto indica que aproximadamente una cuarta parte de las líneas sí tiene algún tipo de descuento. También se identifican <strong>12 descuentos negativos</strong>, una cantidad muy baja, pero que debe revisarse como posible ajuste o inconsistencia.</p>
+<p>Un hallazgo importante es que existen <strong>8.799 registros donde el descuento es mayor que la venta</strong>, equivalentes al <strong>2,15%</strong> de la base. Estos mismos registros generan <strong>venta neta negativa</strong>, lo que confirma que deben ser tratados como casos especiales. No necesariamente son errores, pero sí requieren análisis separado.</p>
+<p>Finalmente, se observan <strong>4.521 registros con venta neta igual a cero</strong>, equivalentes al <strong>1,10%</strong>. Estos casos pueden corresponder a descuentos totales, promociones especiales, devoluciones o ajustes.</p>
+<p>En conclusión, la base tiene buena calidad general, pero contiene casos especiales relevantes relacionados con cantidades, ventas negativas, descuentos altos y ventas netas negativas. Por esta razón, en la limpieza no se deben eliminar automáticamente estos registros, sino crear banderas de calidad para analizarlos posteriormente.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Métricas generales preliminares</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">venta_bruta_total</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;VENTA_PRELIM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">descuento_total</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;DESCUENTO_PRELIM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">venta_neta_total</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;VENTA_NETA_PRELIM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">unidades_totales</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;CANT_PRELIM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="n">resumen_general</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;metrica&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;Filas&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PDV únicos&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Productos únicos&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Categorías únicas&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Facturas únicas globales&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Días únicos&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Venta bruta total&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Descuento total&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Venta neta total&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Unidades totales&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Descuento / Venta bruta (%)&quot;</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;valor&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;PDV&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;PLU_SAP&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;CATEG&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;FACTURA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;FECHA_REAL_PRELIM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+        <span class="n">venta_bruta_total</span><span class="p">,</span>
+        <span class="n">descuento_total</span><span class="p">,</span>
+        <span class="n">venta_neta_total</span><span class="p">,</span>
+        <span class="n">unidades_totales</span><span class="p">,</span>
+        <span class="n">descuento_total</span> <span class="o">/</span> <span class="n">venta_bruta_total</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">venta_bruta_total</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="p">]</span>
+<span class="p">})</span>
+
+<span class="n">resumen_general</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>metrica</th>
+      <th>valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Filas</td>
+      <td>409,760.00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>PDV únicos</td>
+      <td>3.00</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Productos únicos</td>
+      <td>6,039.00</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Categorías únicas</td>
+      <td>7.00</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Facturas únicas globales</td>
+      <td>233,889.00</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Días únicos</td>
+      <td>731.00</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Venta bruta total</td>
+      <td>139,462,498.00</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Descuento total</td>
+      <td>16,270,136.00</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Venta neta total</td>
+      <td>123,192,362.00</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Unidades totales</td>
+      <td>494,973.23</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Descuento / Venta bruta (%)</td>
+      <td>11.67</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="metricas-generales-preliminares">
+<h2>Métricas generales preliminares<a class="headerlink" href="#metricas-generales-preliminares" title="Permalink to this heading">#</a></h2>
+<p>El resumen general muestra una primera visión cuantitativa de la base. En total se tienen <strong>409.760 filas</strong>, asociadas a <strong>3 puntos de venta</strong>, <strong>6.039 productos únicos</strong>, <strong>7 categorías</strong> y <strong>731 días de información</strong>.</p>
+<p>La base contiene <strong>233.889 facturas únicas globales</strong>, aunque este valor debe interpretarse con cuidado, ya que una factura puede repetirse entre fechas o puntos de venta. Por esta razón, más adelante se recomienda construir un identificador único de ticket combinando <code class="docutils literal notranslate"><span class="pre">FECHA</span></code>, <code class="docutils literal notranslate"><span class="pre">PDV</span></code> y <code class="docutils literal notranslate"><span class="pre">FACTURA</span></code>.</p>
+<p>En términos comerciales, la base registra una <strong>venta bruta total de 139.462.498</strong>, un <strong>descuento total de 16.270.136</strong> y una <strong>venta neta total de 123.192.362</strong>. Esto confirma que los descuentos tienen un peso relevante dentro de la operación.</p>
+<p>El total de unidades vendidas es de <strong>494.973,23</strong>, lo cual indica que la variable cantidad puede contener valores decimales, posiblemente asociados a productos vendidos por peso, fracción o medida variable.</p>
+<p>El porcentaje global de descuento sobre la venta bruta es de <strong>11,67%</strong>. Este valor es importante porque muestra que las promociones y descuentos no son marginales, sino que representan una parte significativa de la dinámica comercial.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Identificador preliminar de ticket</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;TICKET_ID_PRELIM&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;FECHA_REAL_PRELIM&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;PDV&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;FACTURA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Facturas únicas globales: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;FACTURA&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tickets únicos preliminares FECHA + PDV + FACTURA: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;TICKET_ID_PRELIM&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Facturas únicas globales: 233,889
+Tickets únicos preliminares FECHA + PDV + FACTURA: 276,989
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="construccion-preliminar-del-identificador-de-ticket">
+<h2>Construcción preliminar del identificador de ticket<a class="headerlink" href="#construccion-preliminar-del-identificador-de-ticket" title="Permalink to this heading">#</a></h2>
+<p>La base contiene <strong>233.889 facturas únicas globales</strong> si se analiza únicamente la columna <code class="docutils literal notranslate"><span class="pre">FACTURA</span></code>. Sin embargo, al construir un identificador más específico combinando <code class="docutils literal notranslate"><span class="pre">FECHA</span> <span class="pre">+</span> <span class="pre">PDV</span> <span class="pre">+</span> <span class="pre">FACTURA</span></code>, se obtienen <strong>276.989 tickets únicos preliminares</strong>.</p>
+<p>Esta diferencia indica que <code class="docutils literal notranslate"><span class="pre">FACTURA</span></code> por sí sola no es suficiente para identificar de manera única una compra. Es probable que un mismo número de factura se repita en diferentes fechas o puntos de venta.</p>
+<p>Por esta razón, para los análisis a nivel de compra se recomienda utilizar un identificador compuesto:</p>
+<p><code class="docutils literal notranslate"><span class="pre">TICKET_ID</span> <span class="pre">=</span> <span class="pre">FECHA</span> <span class="pre">+</span> <span class="pre">PDV</span> <span class="pre">+</span> <span class="pre">FACTURA</span></code></p>
+<p>Este identificador permite aproximarse mejor al concepto de ticket o transacción, evitando subestimar el número real de compras registradas en la base.</p>
+<p>En conclusión, <code class="docutils literal notranslate"><span class="pre">FACTURA</span></code> debe interpretarse como un número interno de factura, pero no como identificador único global. Para análisis de tickets, ticket promedio, productos por compra y líneas por factura, se debe usar <code class="docutils literal notranslate"><span class="pre">TICKET_ID</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Resumen preliminar por PDV</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">resumen_pdv</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;PDV&quot;</span><span class="p">,</span> <span class="s2">&quot;Estrato&quot;</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">filas</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;NroReg&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">),</span>
+        <span class="n">dias</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;FECHA_REAL_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">),</span>
+        <span class="n">tickets</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;TICKET_ID_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">),</span>
+        <span class="n">productos</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;PLU_SAP&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">),</span>
+        <span class="n">categorias</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;CATEG&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">),</span>
+        <span class="n">venta_bruta</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;VENTA_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+        <span class="n">descuento</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;DESCUENTO_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+        <span class="n">venta_neta</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;VENTA_NETA_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+        <span class="n">unidades</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;CANT_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">resumen_pdv</span><span class="p">[</span><span class="s2">&quot;participacion_venta_neta_pct&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">resumen_pdv</span><span class="p">[</span><span class="s2">&quot;venta_neta&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">resumen_pdv</span><span class="p">[</span><span class="s2">&quot;venta_neta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">resumen_pdv</span><span class="p">[</span><span class="s2">&quot;ticket_promedio_neto&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">resumen_pdv</span><span class="p">[</span><span class="s2">&quot;venta_neta&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">resumen_pdv</span><span class="p">[</span><span class="s2">&quot;tickets&quot;</span><span class="p">]</span>
+<span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">resumen_pdv</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;venta_neta&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PDV</th>
+      <th>Estrato</th>
+      <th>filas</th>
+      <th>dias</th>
+      <th>tickets</th>
+      <th>productos</th>
+      <th>categorias</th>
+      <th>venta_bruta</th>
+      <th>descuento</th>
+      <th>venta_neta</th>
+      <th>unidades</th>
+      <th>participacion_venta_neta_pct</th>
+      <th>ticket_promedio_neto</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>1311</td>
+      <td>6</td>
+      <td>201432</td>
+      <td>731</td>
+      <td>129256</td>
+      <td>5142</td>
+      <td>7</td>
+      <td>80638414</td>
+      <td>8,777,219.00</td>
+      <td>71,861,195.00</td>
+      <td>232,738.60</td>
+      <td>58.33</td>
+      <td>555.96</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>1255</td>
+      <td>4</td>
+      <td>132627</td>
+      <td>731</td>
+      <td>93693</td>
+      <td>3736</td>
+      <td>7</td>
+      <td>38023322</td>
+      <td>5,281,154.00</td>
+      <td>32,742,168.00</td>
+      <td>165,580.55</td>
+      <td>26.58</td>
+      <td>349.46</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>980</td>
+      <td>4</td>
+      <td>75701</td>
+      <td>731</td>
+      <td>54040</td>
+      <td>2461</td>
+      <td>6</td>
+      <td>20800762</td>
+      <td>2,211,763.00</td>
+      <td>18,588,999.00</td>
+      <td>96,654.08</td>
+      <td>15.09</td>
+      <td>343.99</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="resumen-preliminar-por-punto-de-venta">
+<h2>Resumen preliminar por punto de venta<a class="headerlink" href="#resumen-preliminar-por-punto-de-venta" title="Permalink to this heading">#</a></h2>
+<p>El resumen por <code class="docutils literal notranslate"><span class="pre">PDV</span></code> muestra que los tres puntos de venta tienen información para los <strong>731 días</strong> del periodo analizado, lo cual indica una cobertura temporal completa por tienda.</p>
+<p>El PDV <strong>1311</strong>, asociado al <strong>estrato 6</strong>, es el punto de venta con mayor peso dentro de la base. Registra <strong>201.432 filas</strong>, <strong>129.256 tickets</strong>, <strong>5.142 productos únicos</strong> y una <strong>venta neta de 71.861.195</strong>, lo que representa el <strong>58,33%</strong> de la venta neta total. Además, tiene el ticket promedio neto más alto, con <strong>555,96</strong>.</p>
+<p>El PDV <strong>1255</strong>, asociado al <strong>estrato 4</strong>, ocupa el segundo lugar en participación, con <strong>132.627 filas</strong>, <strong>93.693 tickets</strong>, <strong>3.736 productos únicos</strong> y una <strong>venta neta de 32.742.168</strong>, equivalente al <strong>26,58%</strong> del total. Su ticket promedio neto es de <strong>349,46</strong>.</p>
+<p>El PDV <strong>980</strong>, también asociado al <strong>estrato 4</strong>, tiene menor participación relativa, con <strong>75.701 filas</strong>, <strong>54.040 tickets</strong>, <strong>2.461 productos únicos</strong> y una <strong>venta neta de 18.588.999</strong>, equivalente al <strong>15,09%</strong> del total. Su ticket promedio neto es de <strong>343,99</strong>, muy cercano al del PDV 1255.</p>
+<p>Este resultado evidencia que la base no está balanceada por punto de venta. El PDV 1311 domina claramente la venta neta, el número de tickets, la cantidad de productos y el ticket promedio. Por esta razón, el análisis y los futuros modelos deben considerar <code class="docutils literal notranslate"><span class="pre">PDV</span></code> como una variable clave, ya que cada tienda presenta un comportamiento comercial diferente.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Resumen preliminar por categoría</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">resumen_categoria</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;GRUCOM&quot;</span><span class="p">,</span> <span class="s2">&quot;CATEG&quot;</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">filas</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;NroReg&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">),</span>
+        <span class="n">dias</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;FECHA_REAL_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">),</span>
+        <span class="n">tickets</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;TICKET_ID_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">),</span>
+        <span class="n">productos</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;PLU_SAP&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">),</span>
+        <span class="n">venta_bruta</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;VENTA_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+        <span class="n">descuento</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;DESCUENTO_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+        <span class="n">venta_neta</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;VENTA_NETA_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+        <span class="n">unidades</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;CANT_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">resumen_categoria</span><span class="p">[</span><span class="s2">&quot;participacion_venta_neta_pct&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">resumen_categoria</span><span class="p">[</span><span class="s2">&quot;venta_neta&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">resumen_categoria</span><span class="p">[</span><span class="s2">&quot;venta_neta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">resumen_categoria</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;venta_neta&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>GRUCOM</th>
+      <th>CATEG</th>
+      <th>filas</th>
+      <th>dias</th>
+      <th>tickets</th>
+      <th>productos</th>
+      <th>venta_bruta</th>
+      <th>descuento</th>
+      <th>venta_neta</th>
+      <th>unidades</th>
+      <th>participacion_venta_neta_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>10</td>
+      <td>04010</td>
+      <td>158659</td>
+      <td>731</td>
+      <td>121604</td>
+      <td>1173</td>
+      <td>61096386</td>
+      <td>7,317,028.00</td>
+      <td>53,779,358.00</td>
+      <td>244,163.00</td>
+      <td>43.65</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>11</td>
+      <td>08042</td>
+      <td>52788</td>
+      <td>731</td>
+      <td>41127</td>
+      <td>1748</td>
+      <td>29985976</td>
+      <td>2,868,994.00</td>
+      <td>27,116,982.00</td>
+      <td>60,593.26</td>
+      <td>22.01</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>11</td>
+      <td>08029</td>
+      <td>132505</td>
+      <td>731</td>
+      <td>95594</td>
+      <td>1391</td>
+      <td>29011472</td>
+      <td>3,044,652.00</td>
+      <td>25,966,820.00</td>
+      <td>123,061.92</td>
+      <td>21.08</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>11</td>
+      <td>08061</td>
+      <td>53538</td>
+      <td>731</td>
+      <td>42098</td>
+      <td>804</td>
+      <td>10970778</td>
+      <td>816,908.00</td>
+      <td>10,153,870.00</td>
+      <td>54,349.08</td>
+      <td>8.24</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>11</td>
+      <td>08062</td>
+      <td>10997</td>
+      <td>723</td>
+      <td>8608</td>
+      <td>666</td>
+      <td>7667928</td>
+      <td>2,222,411.00</td>
+      <td>5,445,517.00</td>
+      <td>10,972.18</td>
+      <td>4.42</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>11</td>
+      <td>08067</td>
+      <td>876</td>
+      <td>304</td>
+      <td>355</td>
+      <td>255</td>
+      <td>698356</td>
+      <td>143.00</td>
+      <td>698,213.00</td>
+      <td>1,373.79</td>
+      <td>0.57</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>10</td>
+      <td>04019</td>
+      <td>397</td>
+      <td>288</td>
+      <td>392</td>
+      <td>2</td>
+      <td>31602</td>
+      <td>0.00</td>
+      <td>31,602.00</td>
+      <td>460.00</td>
+      <td>0.03</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="resumen-preliminar-por-categoria">
+<h2>Resumen preliminar por categoría<a class="headerlink" href="#resumen-preliminar-por-categoria" title="Permalink to this heading">#</a></h2>
+<p>El resumen por categoría muestra que la venta neta está concentrada principalmente en pocas categorías. La categoría <strong>04010</strong>, perteneciente al grupo comercial <strong>10</strong>, es la más importante de la base, con <strong>158.659 filas</strong>, <strong>121.604 tickets</strong>, <strong>1.173 productos</strong> y una <strong>venta neta de 53.779.358</strong>, lo que representa el <strong>43,65%</strong> de la venta neta total.</p>
+<p>En segundo lugar aparece la categoría <strong>08042</strong>, del grupo comercial <strong>11</strong>, con una venta neta de <strong>27.116.982</strong> y una participación del <strong>22,01%</strong>. Aunque tiene menos filas que la categoría 08029, presenta mayor venta neta, lo que puede indicar productos de mayor valor promedio.</p>
+<p>La categoría <strong>08029</strong> también tiene un peso importante, con <strong>132.505 filas</strong>, <strong>95.594 tickets</strong>, <strong>1.391 productos</strong> y una venta neta de <strong>25.966.820</strong>, equivalente al <strong>21,08%</strong> del total. Junto con 04010 y 08042, estas tres categorías concentran aproximadamente el <strong>86,74%</strong> de la venta neta.</p>
+<p>Las categorías <strong>08061</strong> y <strong>08062</strong> tienen una participación intermedia, con <strong>8,24%</strong> y <strong>4,42%</strong> respectivamente. Por otro lado, las categorías <strong>08067</strong> y <strong>04019</strong> tienen una participación muy baja en la venta neta, con <strong>0,57%</strong> y <strong>0,03%</strong>, por lo que deben interpretarse con cuidado en análisis comparativos.</p>
+<p>También se observa que no todas las categorías tienen presencia en los 731 días. Por ejemplo, <code class="docutils literal notranslate"><span class="pre">08062</span></code> aparece en <strong>723 días</strong>, <code class="docutils literal notranslate"><span class="pre">08067</span></code> en <strong>304 días</strong> y <code class="docutils literal notranslate"><span class="pre">04019</span></code> en <strong>288 días</strong>, lo cual indica menor continuidad temporal.</p>
+<p>En conclusión, la base está fuertemente concentrada en pocas categorías, especialmente en <code class="docutils literal notranslate"><span class="pre">04010</span></code>, <code class="docutils literal notranslate"><span class="pre">08042</span></code> y <code class="docutils literal notranslate"><span class="pre">08029</span></code>. Para análisis posteriores y futuros modelos, la categoría será una variable clave porque explica diferencias importantes en volumen, valor de venta, frecuencia y composición comercial.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Top 20 productos por venta neta</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">top_productos_venta</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;PLU_SAP&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">filas</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;NroReg&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">),</span>
+        <span class="n">dias</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;FECHA_REAL_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">),</span>
+        <span class="n">pdv</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;PDV&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">),</span>
+        <span class="n">categorias</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;CATEG&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">),</span>
+        <span class="n">tickets</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;TICKET_ID_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">),</span>
+        <span class="n">venta_neta</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;VENTA_NETA_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+        <span class="n">unidades</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;CANT_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;venta_neta&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">top_productos_venta</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PLU_SAP</th>
+      <th>filas</th>
+      <th>dias</th>
+      <th>pdv</th>
+      <th>categorias</th>
+      <th>tickets</th>
+      <th>venta_neta</th>
+      <th>unidades</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1513</th>
+      <td>1036246</td>
+      <td>7872</td>
+      <td>719</td>
+      <td>3</td>
+      <td>1</td>
+      <td>7675</td>
+      <td>1,958,957.00</td>
+      <td>10,799.00</td>
+    </tr>
+    <tr>
+      <th>1518</th>
+      <td>1036266</td>
+      <td>4699</td>
+      <td>697</td>
+      <td>3</td>
+      <td>1</td>
+      <td>4397</td>
+      <td>1,627,878.00</td>
+      <td>14,374.00</td>
+    </tr>
+    <tr>
+      <th>4657</th>
+      <td>1331944</td>
+      <td>2142</td>
+      <td>569</td>
+      <td>3</td>
+      <td>1</td>
+      <td>2117</td>
+      <td>1,369,148.00</td>
+      <td>3,143.00</td>
+    </tr>
+    <tr>
+      <th>4936</th>
+      <td>1338873</td>
+      <td>8419</td>
+      <td>701</td>
+      <td>3</td>
+      <td>1</td>
+      <td>8064</td>
+      <td>1,311,741.00</td>
+      <td>13,508.00</td>
+    </tr>
+    <tr>
+      <th>3166</th>
+      <td>1246431</td>
+      <td>842</td>
+      <td>79</td>
+      <td>3</td>
+      <td>1</td>
+      <td>627</td>
+      <td>1,263,074.00</td>
+      <td>1,606.00</td>
+    </tr>
+    <tr>
+      <th>1515</th>
+      <td>1036252</td>
+      <td>5075</td>
+      <td>708</td>
+      <td>3</td>
+      <td>1</td>
+      <td>4735</td>
+      <td>1,225,589.00</td>
+      <td>8,419.00</td>
+    </tr>
+    <tr>
+      <th>1516</th>
+      <td>1036253</td>
+      <td>2824</td>
+      <td>633</td>
+      <td>3</td>
+      <td>1</td>
+      <td>2682</td>
+      <td>1,208,016.00</td>
+      <td>14,342.00</td>
+    </tr>
+    <tr>
+      <th>4155</th>
+      <td>1313279</td>
+      <td>4665</td>
+      <td>695</td>
+      <td>3</td>
+      <td>1</td>
+      <td>4299</td>
+      <td>1,082,770.00</td>
+      <td>6,971.00</td>
+    </tr>
+    <tr>
+      <th>1324</th>
+      <td>1023807</td>
+      <td>663</td>
+      <td>345</td>
+      <td>3</td>
+      <td>1</td>
+      <td>615</td>
+      <td>995,053.00</td>
+      <td>771.00</td>
+    </tr>
+    <tr>
+      <th>1556</th>
+      <td>1041245</td>
+      <td>803</td>
+      <td>410</td>
+      <td>3</td>
+      <td>1</td>
+      <td>793</td>
+      <td>894,911.00</td>
+      <td>2,724.00</td>
+    </tr>
+    <tr>
+      <th>1367</th>
+      <td>1025905</td>
+      <td>681</td>
+      <td>349</td>
+      <td>3</td>
+      <td>1</td>
+      <td>618</td>
+      <td>893,962.00</td>
+      <td>768.00</td>
+    </tr>
+    <tr>
+      <th>1216</th>
+      <td>1019790</td>
+      <td>59</td>
+      <td>36</td>
+      <td>1</td>
+      <td>1</td>
+      <td>48</td>
+      <td>842,235.00</td>
+      <td>220.00</td>
+    </tr>
+    <tr>
+      <th>3764</th>
+      <td>1287167</td>
+      <td>158</td>
+      <td>106</td>
+      <td>3</td>
+      <td>1</td>
+      <td>154</td>
+      <td>820,891.00</td>
+      <td>184.00</td>
+    </tr>
+    <tr>
+      <th>1557</th>
+      <td>1041246</td>
+      <td>1713</td>
+      <td>624</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1704</td>
+      <td>746,496.00</td>
+      <td>3,995.00</td>
+    </tr>
+    <tr>
+      <th>3765</th>
+      <td>1287168</td>
+      <td>396</td>
+      <td>210</td>
+      <td>3</td>
+      <td>1</td>
+      <td>373</td>
+      <td>729,317.00</td>
+      <td>511.00</td>
+    </tr>
+    <tr>
+      <th>2117</th>
+      <td>1143697</td>
+      <td>362</td>
+      <td>232</td>
+      <td>3</td>
+      <td>1</td>
+      <td>349</td>
+      <td>651,446.00</td>
+      <td>409.00</td>
+    </tr>
+    <tr>
+      <th>1467</th>
+      <td>1032080</td>
+      <td>370</td>
+      <td>232</td>
+      <td>3</td>
+      <td>1</td>
+      <td>347</td>
+      <td>645,199.00</td>
+      <td>421.00</td>
+    </tr>
+    <tr>
+      <th>1473</th>
+      <td>1032797</td>
+      <td>258</td>
+      <td>185</td>
+      <td>3</td>
+      <td>1</td>
+      <td>247</td>
+      <td>591,137.00</td>
+      <td>326.00</td>
+    </tr>
+    <tr>
+      <th>3667</th>
+      <td>1281459</td>
+      <td>362</td>
+      <td>37</td>
+      <td>3</td>
+      <td>1</td>
+      <td>257</td>
+      <td>526,727.00</td>
+      <td>698.00</td>
+    </tr>
+    <tr>
+      <th>5057</th>
+      <td>1342490</td>
+      <td>1946</td>
+      <td>576</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1881</td>
+      <td>523,385.00</td>
+      <td>3,012.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="top-productos-por-venta-neta">
+<h2>Top productos por venta neta<a class="headerlink" href="#top-productos-por-venta-neta" title="Permalink to this heading">#</a></h2>
+<p>La tabla muestra los <strong>20 productos con mayor venta neta</strong> dentro de la base, identificados mediante el código <code class="docutils literal notranslate"><span class="pre">PLU_SAP</span></code>. Debido a que la base no contiene nombres descriptivos de productos, la interpretación se realiza a partir de estos códigos.</p>
+<p>El producto con mayor venta neta es el <strong>PLU_SAP 1036246</strong>, con una venta neta de <strong>1.958.957</strong>, presente en <strong>7.675 tickets</strong>, durante <strong>719 días</strong> y en los <strong>3 PDV</strong>. Esto indica que es un producto de alta relevancia comercial, con alta frecuencia y presencia casi continua en el periodo analizado.</p>
+<p>También se destacan productos como <strong>1036266</strong>, <strong>1331944</strong>, <strong>1338873</strong>, <strong>1246431</strong>, <strong>1036252</strong> y <strong>1036253</strong>, todos con ventas netas superiores a un millón. Varios de estos productos aparecen en los <strong>3 puntos de venta</strong>, lo que sugiere que tienen distribución amplia dentro de la operación.</p>
+<p>Un aspecto importante es que algunos productos combinan alta venta neta con muchos tickets y unidades, como <code class="docutils literal notranslate"><span class="pre">1036246</span></code>, <code class="docutils literal notranslate"><span class="pre">1036266</span></code> y <code class="docutils literal notranslate"><span class="pre">1338873</span></code>. Estos productos parecen ser de alta rotación o alta relevancia en la canasta de compra.</p>
+<p>También se observan productos con alta venta neta pero menor número de filas o tickets, como <code class="docutils literal notranslate"><span class="pre">1019790</span></code>, que aparece en solo <strong>48 tickets</strong> y un solo PDV, pero alcanza una venta neta de <strong>842.235</strong>. Este tipo de producto puede corresponder a artículos de mayor valor unitario o ventas menos frecuentes pero de alto monto.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Serie diaria preliminar de venta neta</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">ventas_diarias</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;FECHA_REAL_PRELIM&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">venta_neta</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;VENTA_NETA_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+        <span class="n">venta_bruta</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;VENTA_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+        <span class="n">descuento</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;DESCUENTO_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+        <span class="n">unidades</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;CANT_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+        <span class="n">tickets</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;TICKET_ID_PRELIM&quot;</span><span class="p">,</span> <span class="s2">&quot;nunique&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ventas_diarias</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;FECHA_REAL_PRELIM&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;venta_neta&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Venta neta diaria preliminar&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Fecha&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Venta neta&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/119e6046cb5358f85515ec1011576997ab578c32769096dec87d8215489127a6.png" src="../_images/119e6046cb5358f85515ec1011576997ab578c32769096dec87d8215489127a6.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===============================</span>
+<span class="c1"># Exportar tablas resumen iniciales</span>
+<span class="c1"># ===============================</span>
+
+<span class="n">output_file</span> <span class="o">=</span> <span class="n">TABLES_DIR</span> <span class="o">/</span> <span class="s2">&quot;01_revision_inicial.xlsx&quot;</span>
+
+<span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;openpyxl&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+    <span class="n">columnas</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;columnas&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">nulos</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;nulos&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">cardinalidad</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;cardinalidad&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">resumen_general</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;resumen_general&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">casos_especiales_df</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;casos_especiales&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">resumen_anio</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;resumen_anio&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">resumen_pdv</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;resumen_pdv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">resumen_categoria</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;resumen_categoria&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">top_productos_venta</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;top_productos&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Archivo exportado correctamente en: </span><span class="si">{</span><span class="n">output_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Archivo exportado correctamente en: c:\Users\sergi\OneDrive\Desktop\Proyecto Olimpica\reports\tables\01_revision_inicial.xlsx
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="serie-diaria-preliminar-de-venta-neta">
+<h2>Serie diaria preliminar de venta neta<a class="headerlink" href="#serie-diaria-preliminar-de-venta-neta" title="Permalink to this heading">#</a></h2>
+<p>La gráfica muestra la evolución diaria de la <code class="docutils literal notranslate"><span class="pre">VENTA_NETA</span></code> durante el periodo comprendido entre enero de 2023 y diciembre de 2024.</p>
+<p>En general, se observa una serie con alta variabilidad diaria. La mayoría de los días se concentran en niveles relativamente estables de venta neta, pero existen picos marcados en diferentes momentos del periodo. Estos picos pueden estar asociados a cierres de mes, promociones, días comerciales especiales, compras atípicas o registros de alto valor.</p>
+<p>Durante 2023 se evidencian varios picos importantes, especialmente en los primeros meses y hacia el segundo semestre. En 2024 también aparecen picos, aunque visualmente parecen menos extremos o menos frecuentes que algunos observados en 2023. Esto coincide con los resúmenes previos, donde 2024 mostraba menor volumen de registros y ventas frente a 2023.</p>
+<p>También se aprecia un aumento fuerte hacia finales de 2023 e inicios de 2024, lo cual puede indicar un comportamiento estacional, campañas comerciales o mayor actividad en fechas cercanas a cierre de año.</p>
+<p>En conclusión, la venta neta diaria no es completamente uniforme y presenta días atípicos que deben analizarse con mayor detalle. Para interpretar mejor la tendencia general, es recomendable complementar esta gráfica con promedios móviles de 7 y 30 días, además de análisis por mes, día de semana, quincena y fin de mes.</p>
+</section>
+<section id="conclusiones-de-la-revision-inicial">
+<h2>Conclusiones de la revisión inicial<a class="headerlink" href="#conclusiones-de-la-revision-inicial" title="Permalink to this heading">#</a></h2>
+<p>A partir de la carga y revisión inicial de la base, se identifican varios puntos importantes:</p>
+<ol class="arabic simple">
+<li><p>La base corresponde a información transaccional a nivel de línea de venta. Esto significa que cada fila representa un producto vendido dentro de una factura, no una factura completa.</p></li>
+<li><p>La columna <code class="docutils literal notranslate"><span class="pre">FECHA</span></code> se encuentra en formato serial de Excel, por lo que debe convertirse a fecha real para cualquier análisis temporal.</p></li>
+<li><p>Algunas variables que deberían ser numéricas, como <code class="docutils literal notranslate"><span class="pre">CANT</span></code> y <code class="docutils literal notranslate"><span class="pre">DESCUENTO</span></code>, requieren tratamiento especial debido al uso de coma decimal.</p></li>
+<li><p>La columna <code class="docutils literal notranslate"><span class="pre">CATEG</span></code> debe manejarse como texto para conservar posibles ceros iniciales en los códigos de categoría.</p></li>
+<li><p>La variable <code class="docutils literal notranslate"><span class="pre">FACTURA</span></code> no debe usarse sola como identificador único de ticket. Es más recomendable construir un identificador combinando fecha, PDV y factura.</p></li>
+<li><p>Existen casos especiales que deben analizarse con más detalle, como ventas negativas, cantidades negativas, ventas en cero, descuentos negativos y descuentos mayores que la venta.</p></li>
+<li><p>La variable más importante para el análisis posterior será <code class="docutils literal notranslate"><span class="pre">VENTA_NETA</span></code>, calculada como la diferencia entre <code class="docutils literal notranslate"><span class="pre">VENTA</span></code> y <code class="docutils literal notranslate"><span class="pre">DESCUENTO</span></code>.</p></li>
+<li><p>La base contiene información suficiente para realizar análisis por fecha, PDV, categoría, producto, ticket y promoción.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="00_configuracion.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">00 - Configuración inicial del proyecto</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02_limpieza_y_calidad_datos.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">02 - Limpieza y calidad de datos</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vista-inicial-de-la-base-de-datos">Vista inicial de la base de datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revision-de-las-ultimas-filas-de-la-base">Revisión de las últimas filas de la base</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revision-de-una-muestra-aleatoria-de-registros">Revisión de una muestra aleatoria de registros</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-inicial-de-columnas-tipos-de-datos-y-valores-nulos">Resumen inicial de columnas, tipos de datos y valores nulos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#informacion-general-del-dataframe">Información general del DataFrame</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dimensiones-generales-de-la-base">Dimensiones generales de la base</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diccionario-inicial-de-variables">Diccionario inicial de variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revision-de-valores-nulos">Revisión de valores nulos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#columnas-con-valores-faltantes">Columnas con valores faltantes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revision-de-duplicados-completos">Revisión de duplicados completos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revision-de-duplicados-en-nroreg">Revisión de duplicados en <code class="docutils literal notranslate"><span class="pre">NroReg</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cardinalidad-de-variables-principales">Cardinalidad de variables principales</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribucion-de-variables-categoricas-principales">Distribución de variables categóricas principales</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conversion-preliminar-de-la-fecha">Conversión preliminar de la fecha</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validacion-de-cobertura-temporal">Validación de cobertura temporal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-preliminar-por-ano">Resumen preliminar por año</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estadisticos-descriptivos-preliminares">Estadísticos descriptivos preliminares</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revision-preliminar-de-casos-especiales">Revisión preliminar de casos especiales</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metricas-generales-preliminares">Métricas generales preliminares</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-preliminar-del-identificador-de-ticket">Construcción preliminar del identificador de ticket</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-preliminar-por-punto-de-venta">Resumen preliminar por punto de venta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resumen-preliminar-por-categoria">Resumen preliminar por categoría</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#top-productos-por-venta-neta">Top productos por venta neta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#serie-diaria-preliminar-de-venta-neta">Serie diaria preliminar de venta neta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusiones-de-la-revision-inicial">Conclusiones de la revisión inicial</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Sergio Cadavid - Juan Andres Ramos
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
