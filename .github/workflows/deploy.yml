@@ -23,18 +23,13 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install "jupyter-book==1.0.4.post1" ghp-import
+          pip uninstall -y jupyter-book mystmd myst-cli || true
+          pip install "jupyter-book==0.15.1" ghp-import
 
       - name: Build book
         run: |
           jupyter-book clean . --all
           jupyter-book build .
-
-      - name: Verificar carpeta generada
-        run: |
-          ls -la
-          ls -la _build
-          ls -la _build/html
 
       - name: Deploy to gh-pages
         run: |
